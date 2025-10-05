@@ -1,0 +1,53 @@
+<h3 class="dashboard-title">Admin Dashboard</h3>
+
+<div class="dashboard-container">
+
+  <!-- Department Section -->
+  <div class="dashboard-left">
+    <div class="card-custom">
+      <div class="card-body-custom">
+        <h5 class="section-title">Add Department</h5>
+        <div class="input-group-custom">
+          <input class="form-input" [(ngModel)]="deptName" placeholder="Cardiology" />
+          <button class="btn-primary" (click)="addDept()">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <h5 class="section-title">Departments</h5>
+    <div class="dept-list">
+      <div class="dept-item" *ngFor="let d of depts">
+        <div class="card-custom shadow">
+          <div class="card-body-custom">
+            <h6 class="card-subtitle">{{ d.name }}</h6>
+            <p class="card-meta">ID: {{ d._id }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Doctor Section -->
+  <div class="dashboard-right">
+    <div class="card-custom">
+      <div class="card-body-custom">
+        <h5 class="section-title">Create Doctor</h5>
+        <div class="form-grid">
+          <input class="form-input" placeholder="Username" [(ngModel)]="doctor.username">
+          <input class="form-input" placeholder="Email" [(ngModel)]="doctor.email">
+          <input class="form-input" placeholder="Phone" [(ngModel)]="doctor.phone">
+          <input class="form-input" placeholder="Password" type="password" [(ngModel)]="doctor.password">
+          <input class="form-input" placeholder="Specialization" [(ngModel)]="doctor.specialization">
+          <select class="form-input" [(ngModel)]="doctor.departmentId">
+            <option value="">(no department)</option>
+            <option *ngFor="let d of depts" [value]="d._id">{{d.name}}</option>
+          </select>
+        </div>
+        <button class="btn-success mt-2" (click)="createDoctor()">Create</button>
+
+        <div class="form-success" *ngIf="msg">{{msg}}</div>
+        <div class="form-error" *ngIf="err">{{err}}</div>
+      </div>
+    </div>
+  </div>
+</div>

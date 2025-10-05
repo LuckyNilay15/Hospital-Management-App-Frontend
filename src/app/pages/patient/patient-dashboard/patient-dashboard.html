@@ -1,0 +1,91 @@
+<h3 class="page-title">Patient Dashboard</h3>
+
+<div class="card-custom mb">
+  <div class="card-body-custom">
+    <h5 class="section-title">Find Doctors</h5>
+    <div class="form-grid-3">
+      <input class="form-input" placeholder="Specialization" [(ngModel)]="q.specialization">
+      <input class="form-input" placeholder="Doctor name" [(ngModel)]="q.name">
+      <input class="form-input" placeholder="Department Id (optional)" [(ngModel)]="q.department">
+      <button class="btn-primary full-row" (click)="search()">Search</button>
+    </div>
+    <div class="form-error" *ngIf="err">{{err}}</div>
+  </div>
+</div>
+
+<div class="two-col">
+  <!-- Doctors list -->
+  <div class="left-col">
+    <div class="list">
+      <a class="list-item" *ngFor="let d of doctors" (click)="selectDoctor(d._id)">
+        <div class="list-row">
+          <div class="list-main">
+            <strong>{{d.user?.username}}</strong>
+            <small *ngIf="d.department"> ({{d.department.name}})</small>
+          </div>
+          <span class="badge-soft">{{d.specialization}}</span>
+        </div>
+        <small class="muted">Availability: {{d.availability || 'N/A'}}</small>
+      </a>
+    </div>
+  </div>
+
+  <!-- Book appointment -->
+  <div class="right-col">
+    <div class="card-custom">
+      <div class="card-body-custom">
+        <h5 class="section-title">Book Appointment</h5>
+        <div class="form-stack">
+          <div class="form-group">
+            <label class="form-label">Doctor Id</label>
+            <input class="form-input" [(ngModel)]="book.doctorId" placeholder="Click a doctor on left…">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date & Time (ISO)</label>
+            <input class="form-input" [(ngModel)]="book.appointment_date" placeholder="2025-10-05T09:30:00.000Z">
+          </div>
+          <button class="btn-success" (click)="bookAppt()">Book</button>
+          <div class="form-success" *ngIf="msg">{{msg}}</div>
+          <div class="form-error" *ngIf="err">{{err}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<h5 class="section-title">My Appointments</h5>
+<table class="table-custom table-bordered-compact">
+  <thead>
+    <tr><th>Date</th><th>Doctor</th><th>Status</th></tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let a of appts">
+      <td>{{a.appointment_date | date:'medium'}}</td>
+      <td>{{a.doctor?.user?.username}}</td>
+      <td>{{a.status}}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h3>My Prescriptions</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Appointment</th>
+      <th>Doctor Notes</th>
+      <th>Medicines</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of prescriptions">
+      <td>{{p.appointment}}</td>
+      <td>{{p.doctor_notes}}</td>
+      <td>{{p.medicines}}</td>
+      <td>{{p.createdAt | date:'short'}}</td>
+    </tr>
+  </tbody>
+</table>
